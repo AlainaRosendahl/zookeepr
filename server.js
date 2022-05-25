@@ -11,10 +11,23 @@ app.get('/api/animals', (req, res) => {
     res.json(results);
   });
   
+  app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+      res.json(result);
+    } else {
+      res.send(404);
+    }
+  });
 //assigning express to the app variable makes it so i can chain methods to express.js server//
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
   });
+
+  function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+  }
 
   function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
